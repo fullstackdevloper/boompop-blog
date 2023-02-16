@@ -33,8 +33,7 @@ function fetchBogCategoryPosts(blogCatURL){
         blogHTML += '</nav>';
       }
       document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML = '';
-      document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML = blogHTML;
-      document.getElementById('cate').scrollIntoView(true);
+      document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML = blogHTML;      
       //normalizeWebLinks(blogCatURL);
       initPaginationLinksEvents();
     }
@@ -66,6 +65,7 @@ function initPaginationLinksEvents(){
       e.preventDefault();
       let oldLink = this.href+'&format=json-pretty';
       fetchBogCategoryPosts(oldLink);
+      document.getElementById('cate').scrollIntoView(true);
     });
   });
 }
