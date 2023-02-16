@@ -1,11 +1,13 @@
 // default function to update logic
 function updateBlogCategoriesLinks(){
   document.querySelectorAll('.archive-group-list li').forEach(li =>{
+    li.classList.remove('li_active');
     li.querySelector('a').addEventListener('click', function(evt){
       evt.preventDefault();
       let catName = this.href.split('/').at(-1);
       let NewBlogCatURL  = '/blog?category='+catName+'&format=json-pretty';
       fetchBogCategoryPosts(NewBlogCatURL);
+      li.classList.add('li_active');
     });
   });
   initPaginationLinksEvents();
