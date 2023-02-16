@@ -27,7 +27,9 @@ function fetchBogCategoryPosts(blogCatURL){
         if(data.pagination.prevPageUrl){
           blogHTML += buildPrevPageUrl(data.pagination.prevPageUrl);
         }
-        blogHTML += buildNextPageUrl(data.pagination.nextPageUrl);
+        if(data.pagination.nextPageUrl){
+          blogHTML += buildNextPageUrl(data.pagination.nextPageUrl);
+        }
         blogHTML += '</nav>';
       }
       document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML = '';
