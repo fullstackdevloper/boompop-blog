@@ -1,9 +1,9 @@
 // default function to update logic
 function updateBlogCategoriesLinks(){
   document.querySelectorAll('.archive-group-list li').forEach(li =>{
-    li.classList.remove('li_active');
     li.querySelector('a').addEventListener('click', function(evt){
       evt.preventDefault();
+      clearCurrentActiveClass();
       let catName = this.href.split('/').at(-1);
       let NewBlogCatURL  = '/blog?category='+catName+'&format=json-pretty';
       fetchBogCategoryPosts(NewBlogCatURL);
@@ -58,7 +58,7 @@ function normalizeWebLinks(url){
 function initPaginationLinksEvents(){
   // next and old link click event
   let nextOldSel = '.blog-list-pagination .older a,.blog-list-pagination .newer a';
-  //console.log(document.querySelectorAll(nextOldSel));
+  console.log(document.querySelectorAll(nextOldSel));
   document.querySelectorAll(nextOldSel).forEach(link=>{
     link.addEventListener('click', function(e){
       e.preventDefault();
@@ -67,6 +67,9 @@ function initPaginationLinksEvents(){
     });
   });
 }
+// clear current class
+function clearCurrentActiveClass(){
+  document.querySelectorAll('.archive-group-list li').forEach(ele=>ele.classList.remove('li_active'));
+}
 // init updateBlogCategoriesLinks() on include
 updateBlogCategoriesLinks();
-
