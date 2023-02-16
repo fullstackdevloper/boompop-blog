@@ -61,7 +61,6 @@ function normalizeWebLinks(url){
 function initPaginationLinksEvents(){
   // next and old link click event
   let nextOldSel = '.blog-list-pagination .older a,.blog-list-pagination .newer a';
-  console.log(document.querySelectorAll(nextOldSel));
   document.querySelectorAll(nextOldSel).forEach(link=>{
     link.addEventListener('click', function(e){
       e.preventDefault();
