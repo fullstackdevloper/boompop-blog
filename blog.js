@@ -55,7 +55,9 @@ function normalizeWebLinks(url){
 // init pagination link events
 function initPaginationLinksEvents(){
   // next and old link click event
-  document.querySelectorAll('.blog-list-pagination .older a,.blog-list-pagination .newer a').forEach(link=>{
+  let nextOldSel = '.blog-list-pagination .older a,.blog-list-pagination .newer a';
+  console.log(document.querySelectorAll(nextOldSel));
+  document.querySelectorAll(nextOldSel).forEach(link=>{
     link.addEventListener('click', function(e){
       e.preventDefault();
       let oldLink = this.href+'&format=json-pretty';
@@ -65,3 +67,4 @@ function initPaginationLinksEvents(){
 }
 // init updateBlogCategoriesLinks() on include
 updateBlogCategoriesLinks();
+
