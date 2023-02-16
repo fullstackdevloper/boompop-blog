@@ -1,14 +1,14 @@
 // default function to update logic
 function updateBlogCategoriesLinks(){
   document.querySelectorAll('.archive-group-list li').forEach(li =>{
-    var catName = li.querySelector('a').href.split('/').at(-1);
-    li.querySelector('a').href = '';
-    li.querySelector('a').href = '/blog?category='+catName+'&format=json-pretty';
     li.querySelector('a').addEventListener('click', function(evt){
       evt.preventDefault();
-      fetchBogCategoryPosts(this.href);
+      let catName = this.href.split('/').at(-1);
+      let NewBlogCatURL  = '/blog?category='+catName+'&format=json-pretty';
+      fetchBogCategoryPosts(NewBlogCatURL);
     });
   });
+  initPaginationLinksEvents();
 }
 // fetching and parsing data
 function fetchBogCategoryPosts(blogCatURL){
@@ -29,7 +29,9 @@ function fetchBogCategoryPosts(blogCatURL){
         blogHTML += '</nav>';
       }
       document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML = '';
-      document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML =blogHTML;
+      document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML = blogHTML;
+      //normalizeWebLinks(blogCatURL);
+      initPaginationLinksEvents();
     }
   });
 }
@@ -44,6 +46,22 @@ function buildPrevPageUrl(prevPageUrl) {
 // build navigation link
 function buildNextPageUrl(nextPageUrl){
   return `<div class="older"><a href="${nextPageUrl}" rel="next"><span class="next-label">Older Posts</span><div class="blog-list-pagination-icon icon icon--stroke"><svg class="caret-right-icon--small" viewBox="0 0 9 16"><polyline fill="none" stroke-miterlimit="10" points="1.6,1.2 6.5,7.9 1.6,14.7 "></polyline></svg></div></a></div>`;
+}
+// update webpage URL
+function normalizeWebLinks(url){
+  let newURL = url.replace('&format=json-pretty', '');
+  window.history.pushState(null,null,newURL);
+}
+// init pagination link events
+function initPaginationLinksEvents(){
+  // next and old link click event
+  document.querySelectorAll('.blog-list-pagination .older a,.blog-list-pagination .newer a').forEach(link=>{
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      let oldLink = this.href+'&format=json-pretty';
+      fetchBogCategoryPosts(oldLink);
+    });
+  });
 }
 // init updateBlogCategoriesLinks() on include
 updateBlogCategoriesLinks();
