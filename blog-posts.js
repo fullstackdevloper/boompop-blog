@@ -34,6 +34,7 @@ function fetchBogCategoryPosts(blogCatURL){
       }
       document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML = '';
       document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML = blogHTML;
+      document.getElementById('cate').scrollIntoView(true);
       //normalizeWebLinks(blogCatURL);
       initPaginationLinksEvents();
     }
