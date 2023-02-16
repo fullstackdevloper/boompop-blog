@@ -11,9 +11,12 @@ function updateBlogCategoriesLinks(){
     });
   });
   initPaginationLinksEvents();
+  buildBoompopLoader();
 }
 // fetching and parsing data
 function fetchBogCategoryPosts(blogCatURL){
+  // display loader
+  showBomompopLoader();
   fetch(blogCatURL)
   .then(res=> {return res.json()})
   .then(data => {
@@ -36,6 +39,7 @@ function fetchBogCategoryPosts(blogCatURL){
       document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML = blogHTML;
       //normalizeWebLinks(blogCatURL);
       initPaginationLinksEvents();
+      hideBomompopLoader();
     }
   });
 }
@@ -72,6 +76,33 @@ function initPaginationLinksEvents(){
 // clear current class
 function clearCurrentActiveClass(){
   document.querySelectorAll('.archive-group-list li').forEach(ele=>ele.classList.remove('li_active'));
+}
+// build boompop loader
+function buildBoompopLoader(){
+  var eleToAppend = '.sqs-block.archive-block.sqs-block-archive .sqs-block-content';
+  var eleToCopy = '#rotaer svg';
+  var eleWraper = document.createElement('div');
+  eleWraper.classList.add('blog_rotatr');
+  var svgWraper = document.createElement('div');
+  svgWraper.classList.add('anim_circle');
+  svgWraper.style.marginTop = '15px';
+
+  var loaderStyle = document.createElement('style');
+  loaderStyle.innerHTML = `.blog_rotatr{display: none; justify-content: center; position: relative;}.blog_rotatr .anim_circle svg polygon{ animation: anim1 1s ease infinite !important; }`;
+  document.body.appendChild(loaderStyle);
+
+  var clonedSvg = document.querySelector(eleToCopy).cloneNode(true);
+  svgWraper.appendChild(clonedSvg);
+  eleWraper.appendChild(svgWraper);
+  document.querySelector(eleToAppend).appendChild(eleWraper);
+}
+// show boompop loader
+function showBomompopLoader(){
+  document.querySelector('.blog_rotatr').style.display='flex';
+}
+// remove boompop loader
+function hideBomompopLoader(){
+   document.querySelector('.blog_rotatr').style.display='none';
 }
 // init updateBlogCategoriesLinks() on include
 updateBlogCategoriesLinks();
