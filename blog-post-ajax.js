@@ -20,11 +20,9 @@ function fetchBogCategoryPosts(blogCatURL){
   fetch(blogCatURL)
   .then(res=> {return res.json()})
   .then(data => {
-    if(data.items.length > 0) {
+    if(data.items.length > 0){
       var blogHTML = '';
-      data.items.forEach(item=> {
-        blogHTML += buildArticle(item);
-      });
+      data.items.forEach(item=> blogHTML += buildArticle(item));
       if(data.pagination){
         blogHTML += '<nav class="blog-list-pagination">';
         if(data.pagination.prevPage){
@@ -35,17 +33,22 @@ function fetchBogCategoryPosts(blogCatURL){
         }
         blogHTML += '</nav>';
       }
-      document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML = '';
-      document.querySelector('.blog-basic-grid.collection-content-wrapper').innerHTML = blogHTML;
+      let blogWrapper = '.blog-basic-grid.collection-content-wrapper';
+      document.querySelector(blogWrapper).innerHTML = '';
+      document.querySelector(blogWrapper).innerHTML = blogHTML;
+      let blogSlideWrapper = '.blog-basic-grid.collection-content-wrapper article .preSlide';
+      setTimeout(() => {
+        document.querySelectorAll(blogSlideWrapper).forEach(item2=>item2.classList.add('slideIn'));
+        hideBomompopLoader();
+      }, 200);      
       //normalizeWebLinks(blogCatURL);
-      initPaginationLinksEvents();
-      hideBomompopLoader();
+      initPaginationLinksEvents();      
     }
   });
 }
 // build blog HTML
 function buildArticle(item){
-  return `<article class="blog-basic-grid--container entry blog-item is-loaded"> <div> <a href="${item.fullUrl}" class="image-wrapper preSlide slideIn" data-animation-role="image" style="transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.267358s; overflow: hidden;"> <img data-src="${item.assetUrl}" data-image="${item.assetUrl}" data-image-dimensions="6000x4000" data-image-focal-point="0.5,0.5" data-load="false" class="image" data-parent-ratio="1.5" style="left: -1.75px; top: 0px; width: 388.5px; height: 259px; position: absolute;" alt="${item.title}" data-image-resolution="500w" src="${item.assetUrl}?format=500w"> </a> </div> <div class="blog-article-spacer"></div> <div class="blog-basic-grid--text"> <div class="blog-meta-section"> <span class="blog-meta-primary"> <span class="blog-categories-list"> <a href="/blog/category/${item.categories[0]}" class="blog-categories">${item.categories[0]} </a> </span> <span class="blog-author">${item.author.displayName}</span> <time class="blog-date preFade" pubdate="" data-animation-role="date" style="transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.270466s;">2/13/23</time> </span> <span class="blog-meta-delimiter"></span> <span class="blog-meta-delimiter blog-category-delimiter"></span> <span class="blog-meta-secondary"> <span class="blog-categories-list"> <a href="/blog/category/${item.categories[0]}" class="blog-categories"> ${item.categories[0]} </a> </span> <span class="blog-author">${item.author.displayName}</span> <time class="blog-date preFade" pubdate="" data-animation-role="date"  style="transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.273575s;">2/13/23</time> </span> </div> <h1 class="blog-title preSlide slideIn" style="transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.276684s;"> <a href="${item.fullUrl}" data-no-animation="">${item.title}</a> </h1> <div class="blog-excerpt"> <div class="blog-excerpt-wrapper"> <p class="preFade" style="white-space: pre-wrap; transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.279793s;">${item.excerpt}</p> </div> </div> <a class="blog-more-link preFade fadeIn"  href="${item.fullUrl}" data-animation-role="content" style="transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.282902s;">Read More</a> </div> </article>`;
+  return `<article class="blog-basic-grid--container entry blog-item is-loaded"> <div> <a href="${item.fullUrl}" class="image-wrapper preSlide" data-animation-role="image" style="transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.267358s; overflow: hidden;"> <img data-src="${item.assetUrl}" data-image="${item.assetUrl}" data-image-dimensions="6000x4000" data-image-focal-point="0.5,0.5" data-load="false" class="image" data-parent-ratio="1.5" style="left: -1.75px; top: 0px; width: 388.5px; height: 259px; position: absolute;" alt="${item.title}" data-image-resolution="500w" src="${item.assetUrl}?format=500w"> </a> </div> <div class="blog-article-spacer"></div> <div class="blog-basic-grid--text"> <div class="blog-meta-section"> <span class="blog-meta-primary"> <span class="blog-categories-list"> <a href="/blog/category/${item.categories[0]}" class="blog-categories">${item.categories[0]} </a> </span> <span class="blog-author">${item.author.displayName}</span> <time class="blog-date preFade" pubdate="" data-animation-role="date" style="transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.270466s;">2/13/23</time> </span> <span class="blog-meta-delimiter"></span> <span class="blog-meta-delimiter blog-category-delimiter"></span> <span class="blog-meta-secondary"> <span class="blog-categories-list"> <a href="/blog/category/${item.categories[0]}" class="blog-categories"> ${item.categories[0]} </a> </span> <span class="blog-author">${item.author.displayName}</span> <time class="blog-date preFade" pubdate="" data-animation-role="date"  style="transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.273575s;">2/13/23</time> </span> </div> <h1 class="blog-title preSlide" style="transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.276684s;"> <a href="${item.fullUrl}" data-no-animation="">${item.title}</a> </h1> <div class="blog-excerpt"> <div class="blog-excerpt-wrapper"> <p class="preFade" style="white-space: pre-wrap; transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.279793s;">${item.excerpt}</p> </div> </div> <a class="blog-more-link preFade fadeIn"  href="${item.fullUrl}" data-animation-role="content" style="transition-timing-function: ease; transition-duration: 0.6s; transition-delay: 0.282902s;">Read More</a> </div> </article>`;
 }
 // build navigation link
 function buildPrevPageUrl(prevPageUrl) {
